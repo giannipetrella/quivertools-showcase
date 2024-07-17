@@ -1,0 +1,106 @@
+% Layout, characters, page margins, pictures handling.
+\usepackage{graphicx, float}                        % Images
+\usepackage{colonequals}                            % poor man's \colonequals
+% Math tools
+\usepackage{amsmath, amsthm, amsfonts, amssymb}     % A lot of symbols
+
+% References and hyperlinks both in the document and to the web. Needs two compilations in a row.
+\usepackage{hyperref, bookmark, cleveref}
+
+% Commutative diagrams
+\usepackage{tikz, tikz-cd}
+\usetikzlibrary{calc} % This allows for slightly moving nodes in a tikzpicture, by using ($(m-1-1.east)+(offsetX,offsetY)$) for example.
+\usetikzlibrary{arrows, matrix} % I guess
+
+\usepackage{fullpage}
+
+% typesetting
+\usepackage[T1]{fontenc}
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
+\usepackage[scaled=0.83]{beramono}
+\usepackage{parskip}                                % To handle paragraph spacing, indentation etc.
+%\usepackage[charter]{mathdesign}
+%\usepackage[scaled]{beramono,berasans}
+\usepackage{eucal}
+\usepackage{microtype}
+\frenchspacing
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography management. Compile with biber.
+% \usepackage[backend=biber, datamodel=mrnumber, sortcites]{biblatex}
+% \addbibresource{bibliography.bib}
+
+\usepackage{gitinfo2}
+
+\newcommand\gitfootnote[1]{% yoinked from Pieter's repo
+  \begin{NoHyper}
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \end{NoHyper}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Theorems are numbered within sections using a common counter. Do away with ambiguous numbering schemes and assign A number to A thing.
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{claim}[theorem]{Claim}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\iif}{\ensuremath{\Leftrightarrow}}              % If and only if
+
+\renewcommand*{\to}[1][]{\overset{#1}{\rightarrow}} % Arrow with optional label. Use as A \to[label] B
+
+
+\newcommand{\stable}{\hyphen\mathrm{st}}
+\newcommand{\semistable}{\hyphen\mathrm{sst}}
+
+
+\newcommand{\dirlim}[1]{                        % Direct limit
+    \varinjlim_{\substack{#1}}
+    }
+
+\newcommand{\invlim}[1]{                        % Inverse limit
+    \varprojlim_{\substack{#1}}
+    }
+
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\GL}{GL}
+
+
+% Numbers
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+
+% Spaces
+\renewcommand{\AA}{\mathbb{A}}
+\newcommand{\PP}{\mathbb{P}}
+
+
+% Sheaves
+
+\DeclareMathOperator{\sheafHom}{\mathscr{H}\kern -2.5pt\mathit{om}}
+\DeclareMathOperator{\sheafExt}{\mathscr{E}\mathit{xt}}
+
+% various
+\newcommand{\tuple}[1]{\mathbf{#1}}
+\newcommand{\gianni}[1]{{\color{blue}#1}}
