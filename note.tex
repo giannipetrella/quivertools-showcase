@@ -199,28 +199,55 @@ is \emph{rigid}.
 TODO
 \end{frame}
 
+
+\begin{frame}
+    \frametitle{What is a derived category?}
+TODO? OR TO ERASE?
+\end{frame}
+\begin{frame}
+    \frametitle{Semiorthogonal embeddings 1/2}
+To understand the derived category of quasicoherent sheaves on $\modulispace$,
+$D^b(\modulispace)$, we want to look for a \emph{semiorthogonal decomposition}.
+
+For moduli spaces of vector bundles on a curve $C$, $\mathcal{M}_{C}(r, \mathcal{L})$,
+this is done in great generality by
+[TODO cite all the papers], which embed several copies of $D^b(C)$
+into~$D^b(\mathcal{M}_{C}(r, \mathcal{L}))$ in a particular order and show
+that they are semiorthogonal. \pause
+
+Following the numerous parallels TODO [blablabla], Belmans--Franzen
+defined a pseudo-Fourier--Mukai transform
+$\Phi_{\mathcal{U}} : D^b(Q) \to D^b(M) :~V \mapsto V \otimes \mathcal{U}$.
+\begin{theorem}[Belmans--Franzen]
+TODO under reasonable assumptions, this functor is fully faithful.
+\end{theorem}
+In particular, a copy of $D^b(Q)$ is embedded in $D^b(M)$. \pause
+\end{frame}
+\begin{frame}
+    \frametitle{Semiorthogonal embeddings 2/2}
+    Following the parallels between VBAC and QR ourselves,
+we attempt to embed multiple copies of $D^b(Q)$. \pause
+
+Let $r$ be the index of $\modulispace$, i.e.,
+the largest divisor of $K_{\modulispace}$ in $Pic(\modulispace)$, and
+let $H = \frac{1}{r}K_{\modulispace}$ be the smallest fraction of the
+canonical divisor in $Pic(\modulispace)$. \pause
+
+\textbf{Under what conditions, if any, is the following decomposition semiorthogonal?}
+\[
+    \langle
+    \Phi_{\mathcal{U}}, \mathcal{O}_{M},
+    \Phi_{\mathcal{U(H)}}, \mathcal{O}_{M}(H), \dots
+    \Phi_{\mathcal{U}((r-1)H)}, \mathcal{O}_{M}((r-1)H), \dots
+    \rangle
+\]
+
+\end{frame}
+
+
 % \begin{frame}
 %     \frametitle{$D^b(Q)$ and $D^b(\modulispace)$.}
 % [cite pieter]
-% Consider the functor $D^b(Q) \to D^b(M)$.
-% \begin{theorem}[Bieter Pelmans]
-% under reasonable assumptions, this functor is fully faithful.
-% \end{theorem}
-% In particular, a copy of $D^b(Q)$ is embedded in $D^b(M)$. \pause
-
-% Following [the parallel between VBAC and QR],
-% we attempt to embed multiple copies of $D^b(Q)$
-% and try and understand whether they are semiorthogonal.
-
-% \begin{conjecture}
-% Let $Q$, $d$ and $\theta$ satisfy some reasonable assumptions.
-% Then, there is a partial semiorthogonal decomposition of $D^b(M)$ given by
-% \[\langle
-% \Phi_{\mathcal{U}}(D^b(Q)), \mathcal{O}_{M},
-% \Phi_{\mathcal{U(H)}}(D^b(Q)), \mathcal{O}_{M}(H), \dots
-% \Phi_{\mathcal{U}((r-1)H)}(D^b(Q)), \mathcal{O}_{M}((r-1)H), \dots
-% \rangle\]
-% \end{conjecture} \pause
 % \end{frame}
 
 \end{document}
