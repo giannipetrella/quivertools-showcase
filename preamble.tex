@@ -5,26 +5,26 @@
 \usepackage{amsmath, amsthm, amsfonts, amssymb}     % A lot of symbols
 
 % References and hyperlinks both in the document and to the web. Needs two compilations in a row.
-\usepackage{hyperref, bookmark, cleveref}
+\usepackage{hyperref, bookmark}
 
 % Commutative diagrams
 \usepackage{tikz, tikz-cd}
 \usetikzlibrary{calc} % This allows for slightly moving nodes in a tikzpicture, by using ($(m-1-1.east)+(offsetX,offsetY)$) for example.
 \usetikzlibrary{arrows, matrix} % I guess
 
-\usepackage{fullpage}
+% \usepackage{fullpage}
 
-% typesetting
-\usepackage[T1]{fontenc}
-\usepackage{libertine}
-\usepackage[libertine]{newtxmath}
-\usepackage[scaled=0.83]{beramono}
-\usepackage{parskip}                                % To handle paragraph spacing, indentation etc.
-%\usepackage[charter]{mathdesign}
-%\usepackage[scaled]{beramono,berasans}
-\usepackage{eucal}
-\usepackage{microtype}
-\frenchspacing
+% % typesetting
+% \usepackage[T1]{fontenc}
+% \usepackage{libertine}
+% \usepackage[libertine]{newtxmath}
+% \usepackage[scaled=0.83]{beramono}
+% \usepackage{parskip}                                % To handle paragraph spacing, indentation etc.
+% %\usepackage[charter]{mathdesign}
+% %\usepackage[scaled]{beramono,berasans}
+% \usepackage{eucal}
+% \usepackage{microtype}
+% \frenchspacing
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bibliography management. Compile with biber.
@@ -43,18 +43,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Theorems are numbered within sections using a common counter. Do away with ambiguous numbering schemes and assign A number to A thing.
 \theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{claim}[theorem]{Claim}
+% % \newtheorem{theorem}{Theorem}[section]
+% \newtheorem{proposition}[theorem]{Proposition}
+% \newtheorem{lemma}[theorem]{Lemma}
+% \newtheorem{corollary}[theorem]{Corollary}
+% \newtheorem{claim}[theorem]{Claim}
+\newtheorem{conjecture}{Conjecture}
 
-\theoremstyle{remark}
-\newtheorem{remark}[theorem]{Remark}
+% \theoremstyle{remark}
+% \newtheorem{remark}[theorem]{Remark}
 
-\theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{example}[theorem]{Example}
+% \theoremstyle{definition}
+% \newtheorem{definition}[theorem]{Definition}
+% \newtheorem{example}[theorem]{Example}
 
 
 
@@ -66,8 +67,8 @@
 \renewcommand*{\to}[1][]{\overset{#1}{\rightarrow}} % Arrow with optional label. Use as A \to[label] B
 
 
-\newcommand{\stable}{\hyphen\mathrm{st}}
-\newcommand{\semistable}{\hyphen\mathrm{sst}}
+\newcommand{\stable}{-\mathrm{st}}
+\newcommand{\semistable}{-\mathrm{sst}}
 
 
 \newcommand{\dirlim}[1]{                        % Direct limit
@@ -82,7 +83,7 @@
 \DeclareMathOperator{\dom}{dom}
 \DeclareMathOperator{\im}{Im}
 \DeclareMathOperator{\GL}{GL}
-
+\DeclareMathOperator{\Mat}{Mat}
 
 % Numbers
 \newcommand{\NN}{\mathbb{N}}
@@ -104,3 +105,10 @@
 % various
 \newcommand{\tuple}[1]{\mathbf{#1}}
 \newcommand{\gianni}[1]{{\color{blue}#1}}
+
+% macros
+\DeclareMathOperator{\parameterspace}{R}
+\DeclareMathOperator{\modulispace}{M}
+\DeclareMathOperator{\group}{\GL_{\tuple{d}}}
+
+\DeclareMathOperator{\HH}{H}

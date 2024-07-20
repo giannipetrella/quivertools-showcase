@@ -1,16 +1,173 @@
-\documentclass[11pt, a4paper]{article}
+\documentclass{beamer}
 \input{preamble.tex}
 
-\title{TITLE}
-\author{SPEAKER \\\vspace{0.3cm}\small{Notes of Gianni Petrella}}
-\date{\today}
+\title{Decomposing quiver moduli - a QuiverTools showcase}
+\author{Gianni Petrella - University of Luxembourg}
+\institute{MEGA 2024 - MPI MIS Leipzig}
+\date{July 29th, 2024}
 
 
-\begin{document}  
+\begin{document}
+\begin{frame}
+    \titlepage
+% \footnotetex{commit: \texttt{\gitAbbrevHash}\hfil date: \texttt{\gitAuthorIsoDate}\hfil \texttt{\gitReferences}}
+\end{frame}
 
-\maketitle
-\gitfootnote{commit: \texttt{\gitAbbrevHash}\hfil date: \texttt{\gitAuthorIsoDate}\hfil \texttt{\gitReferences}}
+\begin{frame}
+    \frametitle{Preamble}
+\textbf{Plan}
+\begin{enumerate}
+    \item What are quiver moduli?
+    \item What is \emph{QuiverTools}?
+    \item $D^b(Q)$ vs $D^b(M)$
+    \item Semiorthogonal embeddings
+\end{enumerate} \pause
 
+\textbf{Aknowledgements}
 
+This work is supported by the Luxembourg National Research Fund (AFR-17953441)
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Quiver representations}
+\begin{definition}
+    We work over $\mathbb{C}$. \pause
+
+    A \emph{quiver}~$Q$ is a finite directed graph, with
+    vertices~$Q_0$ and arrows~$Q_1$.
+
+    A \emph{representation}~$V$ of~$Q$ is
+    a choice of a vector space~$V_i$ per vertex~$i$
+    and of a linear map~$V_{\alpha}$ per arrow~$\alpha$.
+\end{definition} \pause
+
+Once a \emph{dimension vector} $\tuple{d}$ is fixed, a representation
+is identified with a point in the \emph{parameter space}
+\[
+    \parameterspace(Q, \tuple{d})
+    \colonequals \bigoplus_{i \to j \in Q_1}
+    \Mat_{d_j \times d_i}(k).
+\] \pause
+
+The group~${\GL}_{\tuple{d}} \colonequals \bigoplus_{i \in Q_0} \GL_{d_i}$
+acts on~$\parameterspace$ by base change. \pause
+
+Orbits are precisely isomorphism classes of representations.
+% and two points $V, W$ belong to the
+% same orbit precisely when the corresponding representations are isomorphic. \pause
+\end{frame}
+
+\begin{frame}
+    \frametitle{Quiver moduli via GIT}
+A \emph{stability parameter} is~$\theta \in \ZZ^{Q_0}$
+for which~$\theta \cdot \tuple{d} = 0$. \pause
+\begin{definition}
+The representation~$V$ is (semi)\emph{stable}
+if all its proper subrepresentations~$W$ satisfy~$\theta \cdot W (\leq)< 0$.
+\end{definition} \pause
+\begin{theorem}
+The (semi)stable locus~$\parameterspace^{(\theta\semistable)\theta\stable}(Q, \tuple{d})$
+is a~$\GL_{\tuple{d}}$-invariant Zariski open which admits a geometric quotient,
+denoted by~$\modulispace^{(\theta\semistable)\theta\stable}(Q, \tuple{d})$.
+\end{theorem} \pause
+
+\textbf{Facts} \pause
+
+\begin{itemize}
+    \item $\modulispace^{\theta\semistable}(Q, \tuple{d})$ is projective-over-affine,
+    projective if $Q$ is acyclic.
+    \item $\modulispace^{\theta\stable}(Q, \tuple{d})$ is smooth.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Who cares?}
+\begin{itemize}
+    \item Large class of possibly smooth, projective varieties; \pause
+    \item Encode linear algebra problems geometrically; \pause
+    \item Deep parallels between moduli of vector bundles on curves
+        and quiver representations. \pause
+    \item Geometric properties are often implementable.
+\end{itemize}
+
+    
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{QuiverTools}
+A package to deal with quivers and moduli of quiver representations. \pause
+
+Available as
+
+\begin{itemize}
+    \item \href{quivertools.github.io/QuiverTools}{A SageMath library},
+    \item \href{quivertools.github.io/QuiverTools.jl}{A Julia package}.
+\end{itemize}\pause
+\begin{center}
+\includegraphics[width=100pt]{quivertools-logo.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Harder-Narasimhan stratification}
+A \emph{slope function} is a function~$\mu_{\theta} : \ZZ^{Q_0} \to \QQ: ~\mu_{\theta}(\alpha) = \frac{\theta \cdot \alpha}{\sum_i \alpha_i}$. \pause
+\begin{definition}
+
+A \emph{Harder--Narasimhan type} is a
+tuple~$\tuple{d}^* = (\tuple{d}^1,\dots,\tuple{d}^s)$, such
+that~$\mu(\tuple{d}^1) < \dots < \mu(\tuple{d}^s)$, each dimension
+vector admits a semistable representation,
+and~$\sum_{\ell = 1}^{s}\tuple{d}^{\ell} = \tuple{d}$. \pause
+
+Given a stability parameter~$\theta$, every representation $V$
+admits a unique \emph{Harder--Narasimhan filtration},
+i.e.,~$0 = V_0 \subsetneq V_1 \dots \subsetneq V_s = V$ such that the
+dimension vectors $\dim(V_{\ell}/V_{\ell-1})$ form an HN type.
+\end{definition} \pause
+
+\begin{theorem}[Reineke]
+The paremeter space $\parameterspace$ admits a stratification into
+smooth, disjoint, locally closed subsets $S_{\tuple{d}^*}$, each corresponding
+to a HN type. The trivial type $(\tuple{d})$ corresponds to the semistable
+locus~$\parameterspace^{\theta\semistable}(Q, \tuple{d})$.
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{HN types in QuiverTools}
+TODO
+\end{frame}
+
+% \begin{frame}
+%     \frametitle{$D^b(Q)$ and $D^b(\modulispace)$.}
+% [cite pieter]
+% Consider the functor $D^b(Q) \to D^b(M)$.
+% \begin{theorem}[Bieter Pelmans]
+% under reasonable assumptions, this functor is fully faithful.
+% \end{theorem}
+% In particular, a copy of $D^b(Q)$ is embedded in $D^b(M)$. \pause
+
+% Following [the parallel between VBAC and QR],
+% we attempt to embed multiple copies of $D^b(Q)$
+% and try and understand whether they are semiorthogonal.
+
+% \begin{conjecture}
+% Let $Q$, $d$ and $\theta$ satisfy some reasonable assumptions.
+% Then, there is a partial semiorthogonal decomposition of $D^b(M)$ given by
+% \[\langle
+% \Phi_{\mathcal{U}}(D^b(Q)), \mathcal{O}_{M},
+% \Phi_{\mathcal{U(H)}}(D^b(Q)), \mathcal{O}_{M}(H), \dots
+% \Phi_{\mathcal{U}((r-1)H)}(D^b(Q)), \mathcal{O}_{M}((r-1)H), \dots
+% \rangle\]
+% \end{conjecture} \pause
+% \end{frame}
 
 \end{document}
+
+
+% construction of quiver moduli: from zero to M^sst(Q,d) 5 minutes
+% derived categories: 5 minutes
+% 
