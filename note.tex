@@ -164,6 +164,35 @@ If, for all the HN strata in $\parameterspace$, the strict inequality
 holds, then for all $k > 0$, $\HH^k(\modulispace, \mathcal{F}) = 0$.
 \end{theorem}
 \end{frame}
+
+\begin{frame}
+    \frametitle{Teleman quantization with QuiverTools}
+TODO
+\end{frame}
+
+\begin{frame}
+    \frametitle{Rigidity for quiver moduli}
+The infinitesimal deformations of $\modulispace$ are parametrized
+by~$\HH^1(\modulispace, \mathcal{T}_{\modulispace})$. \pause
+
+Using the \emph{universal families} for $\modulispace$, i.e.,
+some special vector bundles~$\{\mathcal{U}_i\}_{i \in Q_0}$,
+one can construct the \emph{standard exact sequence}
+\begin{equation}\label{equation:4-term-exact-sequence}
+0
+\to\mathcal{O}_{\modulispace}
+\to\bigoplus_{i \in Q_0} \mathcal{U}^\vee_i \otimes \mathcal{U}_i
+\to\bigoplus_{a: i \to j \in Q_1} \mathcal{U}^\vee_{i} \otimes \mathcal{U}_{j}
+\to\mathcal{T}_{\modulispace}
+\to 0.
+\end{equation} \pause
+With some homological algebra, one sees that, if for all $k > 0$ and all $i \in Q_0$
+we can show that~$\HH^k(\modulispace, \mathcal{U}_i) = 0$,
+then~$\HH^k(\modulispace, \mathcal{T}_{\modulispace}) = 0$. \pause
+
+In other words, the moduli space $\modulispace^{\theta\semistable}(Q, \tuple{d}^*)$
+is \emph{rigid}.
+\end{frame}
 % \begin{frame}
 %     \frametitle{$D^b(Q)$ and $D^b(\modulispace)$.}
 % [cite pieter]
