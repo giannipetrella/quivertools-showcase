@@ -22,7 +22,7 @@
     \item $D^b(Q)$ vs $D^b(M)$
     \item Semiorthogonal embeddings
 \end{enumerate} \pause
-
+\vfill
 \textbf{Aknowledgements}
 
 This work is supported by the Luxembourg National Research Fund (AFR-17953441)
@@ -202,48 +202,109 @@ TODO
 
 \begin{frame}
     \frametitle{What is a derived category?}
-TODO? OR TO ERASE?
+\textbf{Idea}: we want to study the category of
+quasicoherent $\mathcal{O}_{\modulispace}$-modules, $\mathit{QCoh}(M)$.
+
+More specifically, we want to understand their cohomology -
+so we ``only want objects in $\mathit{QCoh}(\modulispace)$ up to quasi-isomorphism''. \pause
+\vfill
+The derived category of $\mathit{QCoh}(\modulispace)$, $D(\modulispace)$,
+``can be thought of'' as $\mathit{QCoh}(\modulispace)$ itself, where quasi-isomorphisms are
+formally defined to be isomorphisms. \pause
+\vfill
+\small{It's actually the category of \emph{complexes of objects} in $\mathit{QCoh}(\modulispace)$
+with formal inverses to quasi-isomorphisms...}
+
 \end{frame}
 \begin{frame}
     \frametitle{Semiorthogonal embeddings 1/2}
-To understand the derived category of quasicoherent sheaves on $\modulispace$,
-$D^b(\modulispace)$, we want to look for a \emph{semiorthogonal decomposition}.
+To understand $D^b(\modulispace)$, we want a \emph{semiorthogonal decomposition}.
 
-For moduli spaces of vector bundles on a curve $C$, $\mathcal{M}_{C}(r, \mathcal{L})$,
-this is done in great generality by
-[TODO cite all the papers], which embed several copies of $D^b(C)$
+\begin{definition}
+A \emph{semiorthogonal decomposition} (SOD) is a sequence of (full) subcategories
+where ``there are no morphisms or extensions'':
+\[
+   \mathit{C} = \langle A_1, A_2, \dots, A_n \rangle,
+\]
+where $\Hom(V, W) = \Ext(V, W) = 0$ for all $V \in A_i$, $W \in A_{< i}$.
+\end{definition}\pause
+
+For moduli spaces of vector bundles on a curve $C$,
+$\mathcal{M}_{C}(r, \mathcal{L})$, this is done by
+[TODO cite all the papers], which define a Fourier--Mukai functor, show that it is
+fully faithful, twist it to embed several copies of $D^b(C)$
 into~$D^b(\mathcal{M}_{C}(r, \mathcal{L}))$ in a particular order and show
-that they are semiorthogonal. \pause
+that they are semiorthogonal.
 
-Following the numerous parallels TODO [blablabla], Belmans--Franzen
-defined a pseudo-Fourier--Mukai transform
-$\Phi_{\mathcal{U}} : D^b(Q) \to D^b(M) :~V \mapsto V \otimes \mathcal{U}$.
-\begin{theorem}[Belmans--Franzen]
-TODO under reasonable assumptions, this functor is fully faithful.
-\end{theorem}
-In particular, a copy of $D^b(Q)$ is embedded in $D^b(M)$. \pause
 \end{frame}
+
 \begin{frame}
     \frametitle{Semiorthogonal embeddings 2/2}
-    Following the parallels between VBAC and QR ourselves,
-we attempt to embed multiple copies of $D^b(Q)$. \pause
+For quiver moduli, Belmans--Franzen [TODO cite]
+defined a pseudo-Fourier--Mukai transform
+$\Phi_{\mathcal{U}} : D^b(Q) \to D^b(M) :~V \mapsto \mathcal{U} \otimes_{\CC Q}^{L} V$,
+and show that (under reasonable assumptions) it is fully faithful.
+
+In particular, a copy of $D^b(Q)$ is embedded in $D^b(M)$. \pause
+    Following the parallels between VBAC and representations of quivers,
+we attempt to embed multiple copies of $D^b(Q)$ by twisting with a line bundle. \pause
 
 Let $r$ be the index of $\modulispace$, i.e.,
 the largest divisor of $K_{\modulispace}$ in $Pic(\modulispace)$, and
-let $H = \frac{1}{r}K_{\modulispace}$ be the smallest fraction of the
-canonical divisor in $Pic(\modulispace)$. \pause
+define $H \colonequals \frac{1}{r}K_{\modulispace}$. \pause
 
-\textbf{Under what conditions, if any, is the following decomposition semiorthogonal?}
+\textbf{Under what conditions, if any, is the following partial decomposition semiorthogonal?}
 \[
     \langle
-    \Phi_{\mathcal{U}}, \mathcal{O}_{M},
-    \Phi_{\mathcal{U(H)}}, \mathcal{O}_{M}(H), \dots
-    \Phi_{\mathcal{U}((r-1)H)}, \mathcal{O}_{M}((r-1)H), \dots
+    \Phi_{\mathcal{U}}, \mathcal{O}_{\modulispace},
+    \Phi_{\mathcal{U}(H)}, \mathcal{O}_{\modulispace}(H), \dots
+    \Phi_{\mathcal{U}((r-1)H)}, \mathcal{O}_{\modulispace}((r-1)H), \dots
     \rangle
 \]
-
 \end{frame}
 
+\begin{frame}
+    \frametitle{Semiorthogonal embeddings 2/2}
+
+To verify semiorthogonality, it is enough to verify the vanishings
+on a generating family of $D^b(Q)$, i.e., on simple modules $P_i$. \pause
+
+After some homological algebra, this amounts to checking that for all $k \geq 0$,
+for all $0 \leq n_1 < n_2 \leq r-1$ and for all $i,j \in Q_0$,
+\begin{align}
+    \HH^k(\modulispace, \mathcal{U}^\vee_i \otimes \mathcal{U}_j \otimes \mathcal{O}((n_1 - n_2)H)) &= 0, \label{equation:needed-UidualUjH}\\
+    \HH^k(\modulispace, \mathcal{U}^\vee_i \otimes \mathcal{O}(n_1 - n_2)H) &= 0,\ and \label{equation:needed-UidualH}\\
+    \HH^k(\modulispace, \mathcal{O}(n_1 - n_2)H) &= 0, \label{equation:needed-H}
+\end{align}
+and that for all $0 \leq n_1 \leq n_2 \leq r-1$,
+\begin{equation}
+    \HH^k(\modulispace, \mathcal{U}_i \otimes \mathcal{O}(n_1 - n_2)H) = 0. \label{equation:needed-UiH}
+\end{equation} \pause
+
+We combine Teleman quantization and Hirzebruch--Riemann--Roch computations.
+\end{frame}
+
+\begin{frame}
+    \frametitle{SOD in QuiverTools}
+\textbf{Example}
+
+$Q = $
+\begin{tikzpicture}[baseline = -3pt, node distance = 1.5cm]
+    \node (1)                {};
+    \node (2) [right of = 1] {};
+
+    \draw (1) circle (2pt) node[above] {1};
+    \draw (2) circle (2pt) node[above] {2};
+
+    \draw[->]                  (1) edge (2);
+    \draw[->, bend left  = 30] (1) edge (2);
+    \draw[->, bend right = 30] (1) edge (2);
+
+\end{tikzpicture}
+$\tuple{d} = (2, 3)$, $\theta = (9, -6)$. \pause
+
+
+\end{frame}
 
 % \begin{frame}
 %     \frametitle{$D^b(Q)$ and $D^b(\modulispace)$.}
@@ -254,5 +315,4 @@ canonical divisor in $Pic(\modulispace)$. \pause
 
 
 % construction of quiver moduli: from zero to M^sst(Q,d) 5 minutes
-% derived categories: 5 minutes
-% 
+% derived categories: 5 minute
