@@ -145,7 +145,7 @@ locus~$\parameterspace^{\theta\semistable}(Q, \tuple{d})$.
 \begin{lstlisting}
 julia> Q = mKronecker_quiver(3);
 
-julia> M = QuiverModuliStack(Q, [2, 3]);
+julia> M = QuiverModuliSpace(Q, [2, 3]);
 
 julia> HN = all_HN_types(M)
 8-element Vector{Vector{AbstractVector{Int64}}}:
@@ -329,26 +329,94 @@ and that for all $0 \leq n_1 \leq n_2 \leq r-1$,
 We combine Teleman quantization and Hirzebruch--Riemann--Roch computations.
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
     \frametitle{SOD in QuiverTools}
 \textbf{Example}
+\begin{center}
 
-$Q = $
-\begin{tikzpicture}[baseline = -3pt, node distance = 1.5cm]
-    \node (1)                {};
-    \node (2) [right of = 1] {};
+    $Q = $
+    \begin{tikzpicture}[baseline = -3pt, node distance = 1.5cm]
+        \node (1)                {};
+        \node (2) [right of = 1] {};
+        
+        \draw (1) circle (2pt) node[above] {1};
+        \draw (2) circle (2pt) node[above] {2};
+        
+        \draw[->]                  (1) edge (2);
+        \draw[->, bend left  = 30] (1) edge (2);
+        \draw[->, bend right = 30] (1) edge (2);
+        
+    \end{tikzpicture}
+    $\tuple{d} = (2, 3)$, $\theta = (9, -6)$. \pause
+\end{center}  
+\scriptsize{
+\begin{lstlisting}
+julia> r, n = index(M), dimension(M)
+(3, 6)
 
-    \draw (1) circle (2pt) node[above] {1};
-    \draw (2) circle (2pt) node[above] {2};
+julia> H = all_weights_irreducible_component_canonical(M);
 
-    \draw[->]                  (1) edge (2);
-    \draw[->, bend left  = 30] (1) edge (2);
-    \draw[->, bend right = 30] (1) edge (2);
+julia> for hntype in keys(H)
+           H[hntype] *= -1
+       end
 
-\end{tikzpicture}
-$\tuple{d} = (2, 3)$, $\theta = (9, -6)$. \pause
+julia> H
+Dict{Vector{AbstractVector{Int64}}, Int64}:
+ [[2, 2], [0, 1]]         => -30
+ [[2, 1], [0, 2]]         => -40
+ [[1, 0], [1, 2], [0, 1]] => -40
+ [[1, 0], [1, 3]]         => -135
+ [[1, 0], [1, 1], [0, 2]] => -105
+ [[1, 1], [1, 2]]         => -5
+ [[2, 0], [0, 3]]         => -90
+\end{lstlisting}
+}
+\end{frame}
 
+\begin{frame}[fragile]
+    \frametitle{SOD in QuiverTools}
+% \phantom{a}
+\scriptsize{
+\begin{lstlisting}
+julia> chi = [-1, 1]; Ui = all_weights_universal_bundle(M, chi)
+Dict{Vector{AbstractVector{Int64}}, Vector{Int64}}:
+ [[2, 2], [0, 1]]         => [15, 0]
+ [[2, 1], [0, 2]]         => [20, 10]
+ [[1, 0], [1, 2], [0, 1]] => [25, 15, 10]
+ [[1, 0], [1, 3]]         => [90, 45]
+ [[1, 0], [1, 1], [0, 2]] => [60, 45, 30]
+ [[1, 1], [1, 2]]         => [5, 0]
+ [[2, 0], [0, 3]]         => [45, 30]
 
+julia> UidualUj = all_weights_endomorphisms_universal_bundle(M);
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{SOD in QuiverTools}
+% \phantom{a}
+\scriptsize{
+\begin{lstlisting}
+julia> all(maximum(UidualUj[hn]) - H[hn] < nu[hn] for hn in HN)
+true
+
+julia> all(maximum(-Ui[hn]) - H[hn] < nu[hn] for hn in HN)
+true
+
+julia> all(-H[hn] < nu[hn] for hn in HN)
+true
+
+julia> b = true
+
+julia> for t in 0:r-2
+        b=b && all(maximum(Ui[hn])-t*H[hn] < nu[hn] for hn in HN)
+       end
+
+julia> b
+true
+\end{lstlisting}
+}
 \end{frame}
 
 % \begin{frame}
@@ -357,7 +425,3 @@ $\tuple{d} = (2, 3)$, $\theta = (9, -6)$. \pause
 % \end{frame}
 
 \end{document}
-
-
-% construction of quiver moduli: from zero to M^sst(Q,d) 5 minutes
-% derived categories: 5 minute
