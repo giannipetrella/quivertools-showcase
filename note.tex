@@ -140,9 +140,24 @@ locus~$\parameterspace^{\theta\semistable}(Q, \tuple{d})$.
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
     \frametitle{HN types in QuiverTools}
-TODO
+\begin{lstlisting}
+julia> Q = mKronecker_quiver(3);
+
+julia> M = QuiverModuliStack(Q, [2, 3]);
+
+julia> HN = all_HN_types(M)
+8-element Vector{Vector{AbstractVector{Int64}}}:
+ [[2, 3]]
+ [[1, 1], [1, 2]]
+ [[2, 2], [0, 1]]
+ [[2, 1], [0, 2]]
+ [[1, 0], [1, 3]]
+ [[1, 0], [1, 2], [0, 1]]
+ [[1, 0], [1, 1], [0, 2]]
+ [[2, 0], [0, 3]]
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}
@@ -168,9 +183,21 @@ holds, then for all $k > 0$, $\HH^k(\modulispace, \mathcal{F}) = 0$.
 \end{theorem}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
     \frametitle{Teleman quantization with QuiverTools}
-TODO
+\small{
+\begin{lstlisting}
+julia> nu = all_Teleman_bounds(M)
+Dict{Vector{AbstractVector{Int64}}, Int64}:
+  [[2, 2], [0, 1]]         => 60
+  [[2, 1], [0, 2]]         => 100
+  [[1, 0], [1, 2], [0, 1]] => 100
+  [[1, 0], [1, 3]]         => 360
+  [[1, 0], [1, 1], [0, 2]] => 270
+  [[1, 1], [1, 2]]         => 15
+  [[2, 0], [0, 3]]         => 270
+\end{lstlisting}
+}
 \end{frame}
 
 \begin{frame}
@@ -197,9 +224,24 @@ In other words, the moduli space $\modulispace^{\theta\semistable}(Q, \tuple{d}^
 is \emph{rigid}.
 \end{frame}
 
-\begin{frame}
-    \frametitle{Teleman inequality in QuiverTools}
-TODO
+\begin{frame}[fragile]
+    \frametitle{Teleman inequality with QuiverTools}
+\scriptsize{
+\begin{lstlisting}
+julia> W = all_weights_endomorphisms_universal_bundle(M)
+Dict{Vector{AbstractVector{Int64}}, Vector{Int64}}:
+  [[2, 2], [0, 1]]         => [0, 15, -15, 0]
+  [[2, 1], [0, 2]]         => [0, 10, -10, 0]
+  [[1, 0], [1, 2], [0, 1]] => [0, 10, 15, -10, 0, 5, -15, -5, 0]
+  [[1, 0], [1, 3]]         => [0, 45, -45, 0]
+  [[1, 0], [1, 1], [0, 2]] => [0, 15, 30, -15, 0, 15, -30, -15, 0]
+  [[1, 1], [1, 2]]         => [0, 5, -5, 0]
+  [[2, 0], [0, 3]]         => [0, 15, -15, 0]
+
+julia> all(maximum(W[hntype]) < nu[hntype] for hntype in HN)
+true
+\end{lstlisting}
+}
 \end{frame}
 
 
