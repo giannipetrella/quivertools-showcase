@@ -10,7 +10,7 @@
 \begin{document}
 \begin{frame}
     \titlepage
-% \footnotetex{commit: \texttt{\gitAbbrevHash}\hfil date: \texttt{\gitAuthorIsoDate}\hfil \texttt{\gitReferences}}
+\footnotetext{Slides and code at \href{https://github.com/giannipetrella/quivertools-showcase}{https://github.com/giannipetrella/quivertools-showcase}}
 \end{frame}
 
 \begin{frame}
@@ -106,26 +106,105 @@ A package to deal with quivers and moduli of quiver representations. \pause
 
 Developed by P. Belmans, H. Franzen and G. P. \pause
 
-Available as
+Available (with feature parity) as
 
 \begin{itemize}
-    \item \href{quivertools.github.io/QuiverTools}{A SageMath library},
-    \item \href{quivertools.github.io/QuiverTools.jl}{A Julia package}.
+    \item \href{quivertools.github.io/QuiverTools}{A SageMath library: quivertools.github.io/QuiverTools},
+    \item \href{quivertools.github.io/QuiverTools.jl}{A Julia package: quivertools.github.io/QuiverTools.jl}.
 \end{itemize}\pause
 \begin{center}
 \includegraphics[width=100pt]{quivertools-logo.png}
 \end{center}
 \end{frame}
 
+\begin{frame}[fragile]
+    \frametitle{QuiverTools - quivers}
+\scriptsize{
+\begin{lstlisting}
+julia> Q = mKronecker_quiver(3)
+3-Kronecker quiver, with adjacency matrix [0 3; 0 0]
+
+julia>  println("Adjacency matrix: ", Q.adjacency)
+        println("arrows: ", arrows(Q))
+        println("Number of vertices: ", nvertices(Q))
+        println("Number of arrows: ", narrows(Q))
+Adjacency matrix: [0 3; 0 0]
+arrows: [[1, 2], [1, 2], [1, 2]]
+Number of vertices: 2
+Number of arrows: 3
+
+julia> is_connected(Q)
+true
+
+julia> is_acyclic(Q)
+true
+\end{lstlisting}
+}
+
+
+\end{frame}
+\begin{frame}[fragile]
+    \frametitle{QuiverTools - quiver moduli}
+\scriptsize{
+\begin{lstlisting}
+julia> M = QuiverModuliSpace(Q, [2, 3])
+Moduli space of semistable representations of 3-Kronecker quiver,
+with adjacency matrix [0 3; 0 0]
+with dimension vector [2, 3] and stability parameter [9, -6]
+
+julia> is_projective(M)
+true
+
+julia> is_smooth(M)
+true
+
+julia> dimension(M)
+6
+
+julia> H = Hodge_polynomial(M)
+x^6*y^6 + x^5*y^5 + 3*x^4*y^4 + 3*x^3*y^3 + 3*x^2*y^2 + x*y + 1
+\end{lstlisting}
+}
+\end{frame}
+\begin{frame}[fragile]
+    \frametitle{QuiverTools - quiver moduli}
+\scriptsize{
+\begin{lstlisting}
+julia> Hodge_diamond(M)
+7x7 Matrix{Int64}:
+ 1  0  0  0  0  0  0
+ 0  1  0  0  0  0  0
+ 0  0  3  0  0  0  0
+ 0  0  0  3  0  0  0
+ 0  0  0  0  3  0  0
+ 0  0  0  0  0  1  0
+ 0  0  0  0  0  0  1
+
+julia> P = Poincare_polynomial(M)
+L^6 + L^5 + 3*L^4 + 3*L^3 + 3*L^2 + L + 1
+
+julia> Betti_numbers(M) == [1,0,1,0,3,0,3,0,3,0,1,0,1]
+true
+
+julia>  println("Picard rank: ", Picard_rank(M))
+        println("Index: ", index(M))
+Picard rank: 1
+Index: 3
+\end{lstlisting}
+}
+\end{frame}
 \begin{frame}
     \frametitle{Harder-Narasimhan stratification}
 A \emph{slope function} is a function~$\mu_{\theta} : \ZZ^{Q_0} \to \QQ: ~\mu_{\theta}(\alpha) = \frac{\theta \cdot \alpha}{\sum_i \alpha_i}$. \pause
-\begin{definition}
+\begin{definition} \pause
+A representation $V$ of $Q$ is $\mu_{\theta}$-(semi)stable if, for all
+proper subrepresentations $W \subsetneq V$,
+$\mu_{\theta}(\dim W) (\leq)< \mu_{\theta}(\dim V)$. \pause
 
-A \emph{Harder--Narasimhan type} is a
+A \emph{Harder--Narasimhan type} for $Q$ and $\tuple{d}$ is a
 tuple~$\tuple{d}^* = (\tuple{d}^1,\dots,\tuple{d}^s)$, such
-that~$\mu(\tuple{d}^1) > \dots > \mu(\tuple{d}^s)$, each dimension
-vector admits a semistable representation,
+that~$\mu(\tuple{d}^1) > \dots > \mu(\tuple{d}^s)$, each $\tuple{d}^{\ell}$
+admits a semistable representation,
 and~$\sum_{\ell = 1}^{s}\tuple{d}^{\ell} = \tuple{d}$. \pause
 
 Given a stability parameter~$\theta$, every representation $V$
@@ -135,7 +214,7 @@ dimension vectors $\dim(V_{\ell}/V_{\ell-1})$ form an HN type.
 \end{definition} \pause
 
 \begin{theorem}[Reineke \cite{MR1974891}]
-The paremeter space $\parameterspace$ admits a stratification into
+The paremeter space $\parameterspace(Q, \tuple{d})$ admits a stratification into
 smooth, disjoint, locally closed subsets $S_{\tuple{d}^*}$, each corresponding
 to a HN type. The trivial type $(\tuple{d})$ corresponds to the semistable
 locus~$\parameterspace^{\theta\semistable}(Q, \tuple{d})$.
@@ -145,14 +224,14 @@ locus~$\parameterspace^{\theta\semistable}(Q, \tuple{d})$.
 
 \begin{frame}[fragile]
     \frametitle{HN types in QuiverTools}
+    \scriptsize{
 \begin{lstlisting}
 julia> Q = mKronecker_quiver(3);
 
 julia> M = QuiverModuliSpace(Q, [2, 3]);
 
 julia> HN = all_HN_types(M, unstable=true)
-8-element Vector{Vector{AbstractVector{Int64}}}:
- [[2, 3]]
+7-element Vector{Vector{AbstractVector{Int64}}}:
  [[1, 1], [1, 2]]
  [[2, 2], [0, 1]]
  [[2, 1], [0, 2]]
@@ -161,6 +240,7 @@ julia> HN = all_HN_types(M, unstable=true)
  [[1, 0], [1, 1], [0, 2]]
  [[2, 0], [0, 3]]
 \end{lstlisting}
+    }
 \end{frame}
 
 \begin{frame}
@@ -173,16 +253,17 @@ On each stratum $S_{\tuple{d}^*}$, this 1-PS acts
 on~$\det(\mathcal{N}^{\vee}_{S_{\tuple{d}^*}/\parameterspace})|_{S_{\tuple{d}^*}^{\lambda_{\tuple{d}^*}}}$,
 and the \emph{weight} of this action is denoted by $\eta_{\tuple{d}^*}$. \pause
 
-Let $F$ be a coherent sheaf on $\parameterspace$, with an action of~$\GL_{\tuple{d}}$
+Let $F$ be a coherent sheaf on $\parameterspace(Q, \tuple{d})$, with an action of~$\GL_{\tuple{d}}$
 that descends it to the quotient.
-Denote the descent of $F$ to $\modulispace$ by $\mathcal{F}$. \pause
+Denote the descent of $F$ to $\modulispace^{\theta\stable}(Q,\tuple{d})$ by $\mathcal{F}$. \pause
 The 1-PS~$\lambda_{\tuple{d}^*}$ acts on~$F|_{S_{\tuple{d}^*}^{\lambda_{\tuple{d}^*}}}$,
 and the weights of this action are the set $W(F, \tuple{d}^*)$. \pause
 
 \begin{theorem}[Teleman quantization \cite{MR3327537,rigidity-paper}]
-If, for all the HN strata in $\parameterspace$, the strict inequality
+If, for all the HN strata in $\parameterspace(Q, \tuple{d})$,
+the strict inequality
 \[\max W(F, \tuple{d}^*) < \eta_{\tuple{d}^*}\]
-holds, then for all $k > 0$, $\HH^k(\modulispace, \mathcal{F}) = 0$.
+holds, then for all $k > 0$, $\HH^k(\modulispace^{\theta\stable}(Q,\tuple{d}), \mathcal{F}) = 0$.
 \end{theorem}
 \end{frame}
 
@@ -190,7 +271,7 @@ holds, then for all $k > 0$, $\HH^k(\modulispace, \mathcal{F}) = 0$.
     \frametitle{Teleman quantization with QuiverTools}
 \small{
 \begin{lstlisting}
-julia> nu = all_Teleman_bounds(M)
+julia> eta = all_Teleman_bounds(M)
 Dict{Vector{AbstractVector{Int64}}, Int64}:
  [[2, 2], [0, 1]]         => 60
  [[2, 1], [0, 2]]         => 100
@@ -241,7 +322,7 @@ Dict{Vector{AbstractVector{Int64}}, Vector{Int64}}:
  [[1, 1], [1, 2]]         => [0, 5, -5, 0]
  [[2, 0], [0, 3]]         => [0, 15, -15, 0]
 
-julia> all(maximum(W[hntype]) < nu[hntype] for hntype in HN)
+julia> all(maximum(W[hntype]) < eta[hntype] for hntype in HN)
 true
 \end{lstlisting}
 }
@@ -280,10 +361,10 @@ where $\Hom(V, W) = \Ext(V, W) = 0$ for all $V \in A_i$, $W \in A_{< i}$.
 For moduli spaces of vector bundles on a curve $C$,
 $\mathcal{M}_{C}(r, \mathcal{L})$, this is done in various degrees of generality by
 \cite{MR3713871, MR3880395, MR3764066}, \cite{MR3954042} and \cite{MR4651618}.
-The ``recipe'' is to define a Fourier--Mukai functor, show that it is
-fully faithful, twist it to embed several copies of $D^b(C)$
-into~$D^b(\mathcal{M}_{C}(r, \mathcal{L}))$ in a particular order and show
-that they are semiorthogonal.
+The ``recipe'' is to define a functor $D^b(C) \to D^b(\mathcal{M}_C(r, \mathcal{L}))$,
+show that it is fully faithful, twist it to embed several copies of $D^b(C)$
+into~$D^b(\mathcal{M}_{C}(r, \mathcal{L}))$ in a particular order and lastly show
+that these copies are semiorthogonal.
 
 \end{frame}
 
@@ -402,19 +483,19 @@ julia> UidualUj = all_weights_endomorphisms_universal_bundle(M);
 % \phantom{a}
 \scriptsize{
 \begin{lstlisting}
-julia> all(maximum(UidualUj[hn]) - H[hn] < nu[hn] for hn in HN)
+julia> all(maximum(UidualUj[hn]) - H[hn] < eta[hn] for hn in HN)
 true
 
-julia> all(maximum(-Ui[hn]) - H[hn] < nu[hn] for hn in HN)
+julia> all(maximum(-Ui[hn]) - H[hn] < eta[hn] for hn in HN)
 true
 
-julia> all(-H[hn] < nu[hn] for hn in HN)
+julia> all(-H[hn] < eta[hn] for hn in HN)
 true
 
 julia> b = true
 
 julia> for t in 0:r-2
-        b=b && all(maximum(Ui[hn])-t*H[hn] < nu[hn] for hn in HN)
+        b=b && all(maximum(Ui[hn])-t*H[hn] < eta[hn] for hn in HN)
        end
 
 julia> b
@@ -501,6 +582,8 @@ julia> println([integral(M, u) for u in bundles])
     \frametitle{Decomposing quiver moduli - a QuiverTools showcase}
 \begin{center}
     Thank you for your attention!
+    \vfill
+    Slides and code at \href{https://github.com/giannipetrella/quivertools-showcase}{https://github.com/giannipetrella/quivertools-showcase}
 \end{center}
 \end{frame}
 
