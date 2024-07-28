@@ -19,11 +19,13 @@
 \begin{enumerate}
     \item What are quiver moduli?
     \item What is \emph{QuiverTools}?
-    \item $D^b(Q)$ vs $D^b(M)$
-    \item Semiorthogonal embeddings
+    \item Teleman inequality and rigidity (in QuiverTools)
+    \item Hirzebruch--Riemann--Roch and semiorthogonal embeddings (in QuiverTools)
 \end{enumerate} \pause
 \vfill
 \textbf{Aknowledgements}
+
+QuiverTools is developed by P. Belmans, H. Franzen and G.P.
 
 This work is supported by the Luxembourg National Research Fund (AFR-17953441)
 
@@ -71,7 +73,6 @@ The (semi)stable locus~$\parameterspace^{(\theta\semistable)\theta\stable}(Q, \t
 is a~$\GL_{\tuple{d}}$-invariant Zariski open which admits a geometric quotient,
 denoted by~$\modulispace^{(\theta\semistable)\theta\stable}(Q, \tuple{d})$.
 \end{theorem} \pause
-
 \textbf{Facts} \pause
 
 \begin{itemize}
@@ -103,6 +104,8 @@ From now on, $Q$ is assumed to be acyclic, for simplicity.
     \frametitle{QuiverTools}
 A package to deal with quivers and moduli of quiver representations. \pause
 
+Developed by P. Belmans, H. Franzen and G. P. \pause
+
 Available as
 
 \begin{itemize}
@@ -131,7 +134,7 @@ i.e.,~$0 = V_0 \subsetneq V_1 \dots \subsetneq V_s = V$ such that the
 dimension vectors $\dim(V_{\ell}/V_{\ell-1})$ form an HN type.
 \end{definition} \pause
 
-\begin{theorem}[Reineke]
+\begin{theorem}[Reineke \cite{MR1974891}]
 The paremeter space $\parameterspace$ admits a stratification into
 smooth, disjoint, locally closed subsets $S_{\tuple{d}^*}$, each corresponding
 to a HN type. The trivial type $(\tuple{d})$ corresponds to the semistable
@@ -147,7 +150,7 @@ julia> Q = mKronecker_quiver(3);
 
 julia> M = QuiverModuliSpace(Q, [2, 3]);
 
-julia> HN = all_HN_types(M)
+julia> HN = all_HN_types(M, unstable=true)
 8-element Vector{Vector{AbstractVector{Int64}}}:
  [[2, 3]]
  [[1, 1], [1, 2]]
@@ -176,7 +179,7 @@ Denote the descent of $F$ to $\modulispace$ by $\mathcal{F}$. \pause
 The 1-PS~$\lambda_{\tuple{d}^*}$ acts on~$F|_{S_{\tuple{d}^*}^{\lambda_{\tuple{d}^*}}}$,
 and the weights of this action are the set $W(F, \tuple{d}^*)$. \pause
 
-\begin{theorem}[Teleman quantization]
+\begin{theorem}[Teleman quantization \cite{MR3327537,rigidity-paper}]
 If, for all the HN strata in $\parameterspace$, the strict inequality
 \[\max W(F, \tuple{d}^*) < \eta_{\tuple{d}^*}\]
 holds, then for all $k > 0$, $\HH^k(\modulispace, \mathcal{F}) = 0$.
@@ -207,16 +210,16 @@ by~$\HH^1(\modulispace, \mathcal{T}_{\modulispace})$. \pause
 
 Using the \emph{universal families} for $\modulispace$, i.e.,
 some special vector bundles~$\{\mathcal{U}_i\}_{i \in Q_0}$,
-one can construct the \emph{standard exact sequence}
+one can construct the \emph{standard exact sequence} \cite{vector-fields-paper}:
 \begin{equation}\label{equation:4-term-exact-sequence}
 0
 \to\mathcal{O}_{\modulispace}
 \to\bigoplus_{i \in Q_0} \mathcal{U}^\vee_i \otimes \mathcal{U}_i
-\to\bigoplus_{a: i \to j \in Q_1} \mathcal{U}^\vee_{i} \otimes \mathcal{U}_{j}
+\to\bigoplus_{i \to j \in Q_1} \mathcal{U}^\vee_{i} \otimes \mathcal{U}_{j}
 \to\mathcal{T}_{\modulispace}
 \to 0.
 \end{equation} \pause
-With some homological algebra, one sees that, if for all $k > 0$ and all $i,j \in Q_0$
+With some homological algebra as in \cite{rigidity-paper}, one sees that, if for all $k > 0$ and all $i,j \in Q_0$
 we can show that~$\HH^k(\modulispace, \mathcal{U}^{\vee}_i \otimes \mathcal{U}_j) = 0$,
 then~$\HH^k(\modulispace, \mathcal{T}_{\modulispace}) = 0$. \pause
 
@@ -275,8 +278,9 @@ where $\Hom(V, W) = \Ext(V, W) = 0$ for all $V \in A_i$, $W \in A_{< i}$.
 \end{definition}\pause
 
 For moduli spaces of vector bundles on a curve $C$,
-$\mathcal{M}_{C}(r, \mathcal{L})$, this is done by
-[TODO cite all the papers], which define a Fourier--Mukai functor, show that it is
+$\mathcal{M}_{C}(r, \mathcal{L})$, this is done in various degrees of generality by
+\cite{MR3713871, MR3880395, MR3764066}, \cite{MR3954042} and \cite{MR4651618}.
+The ``recipe'' is to define a Fourier--Mukai functor, show that it is
 fully faithful, twist it to embed several copies of $D^b(C)$
 into~$D^b(\mathcal{M}_{C}(r, \mathcal{L}))$ in a particular order and show
 that they are semiorthogonal.
@@ -285,15 +289,16 @@ that they are semiorthogonal.
 
 \begin{frame}
     \frametitle{Semiorthogonal embeddings 2/2}
-For quiver moduli, Belmans--Franzen [TODO cite]
+For quiver moduli, Belmans--Franzen \cite{vector-fields-paper}
 defined a pseudo-Fourier--Mukai transform
-$\Phi_{\mathcal{U}} : D^b(Q) \to D^b(M) :~V \mapsto \mathcal{U} \otimes_{\CC Q}^{L} V$,
-and show that (under reasonable assumptions) it is fully faithful.
+\[\Phi_{\mathcal{U}} : D^b(Q) \to D^b(M) :~V \mapsto \mathcal{U} \otimes_{k Q}^{L} V, \]
+and show that under reasonable assumptions it is fully faithful.
 
 In particular, a copy of $D^b(Q)$ is embedded in $D^b(M)$. \pause
-    Following the parallels between VBAC and representations of quivers,
-we attempt to embed multiple copies of $D^b(Q)$ by twisting with a line bundle. \pause
 
+Inspired by the recipe for bundles on curves, we attempt to embed
+multiple copies of $D^b(Q)$ by twisting with a line bundle. \pause
+\vfill
 Let $r$ be the index of $\modulispace$, i.e.,
 the largest divisor of $K_{\modulispace}$ in $Pic(\modulispace)$, and
 define $H \colonequals \frac{1}{r}K_{\modulispace}$. \pause
@@ -311,10 +316,7 @@ define $H \colonequals \frac{1}{r}K_{\modulispace}$. \pause
 \begin{frame}
     \frametitle{Semiorthogonal embeddings 2/2}
 
-To verify semiorthogonality, it is enough to verify the vanishings
-on a generating family of $D^b(Q)$, i.e., on simple modules $P_i$. \pause
-
-After some homological algebra, this amounts to checking that for all $k \geq 0$,
+After \emph{some} homological algebra, this amounts to checking that for all $k \geq 0$,
 for all $0 \leq n_1 < n_2 \leq r-1$ and for all $i,j \in Q_0$,
 \begin{align}
     \HH^k(\modulispace, \mathcal{U}^\vee_i \otimes \mathcal{U}_j \otimes \mathcal{O}((n_1 - n_2)H)) &= 0, \label{equation:needed-UidualUjH}\\
@@ -326,7 +328,9 @@ and that for all $0 \leq n_1 \leq n_2 \leq r-1$,
     \HH^k(\modulispace, \mathcal{U}_i \otimes \mathcal{O}(n_1 - n_2)H) = 0. \label{equation:needed-UiH}
 \end{equation} \pause
 
-We combine Teleman quantization and Hirzebruch--Riemann--Roch computations.
+To check these vanishings we combine Teleman quantization
+and Hirzebruch--Riemann--Roch computations, enabled by the results
+on Chow rings of quiver moduli in \cite{MR3318266,chow-paper}.
 \end{frame}
 
 \begin{frame}[fragile]
@@ -492,14 +496,11 @@ julia> println([integral(M, u) for u in bundles])
 \end{lstlisting}
 }
 \end{frame}
-% \begin{frame}
-%     \frametitle{$D^b(Q)$ and $D^b(\modulispace)$.}
-% [cite pieter]
-% \end{frame}
+
 \begin{frame}
     \frametitle{Decomposing quiver moduli - a QuiverTools showcase}
 \begin{center}
-    Thank you for your attention! \cite{rigidity-paper}
+    Thank you for your attention!
 \end{center}
 \end{frame}
 
