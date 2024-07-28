@@ -374,7 +374,7 @@ Dict{Vector{AbstractVector{Int64}}, Int64}:
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{SOD in QuiverTools}
+    \frametitle{SOD in QuiverTools - Teleman inequality}
 % \phantom{a}
 \scriptsize{
 \begin{lstlisting}
@@ -394,7 +394,7 @@ julia> UidualUj = all_weights_endomorphisms_universal_bundle(M);
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{SOD in QuiverTools}
+    \frametitle{SOD in QuiverTools - Teleman inequality}
 % \phantom{a}
 \scriptsize{
 \begin{lstlisting}
@@ -419,9 +419,90 @@ true
 }
 \end{frame}
 
+\begin{frame}[fragile]
+    \frametitle{SOD in QuiverTools - Hirzebruch--Riemann--Roch}
+\scriptsize{
+\begin{lstlisting}
+julia> CH, CHvars = Chow_ring(M);
+
+julia> x11, x12, x21, x22, x23 = CHvars;
+
+julia> w=(Euler_form(Q,d,[1,0])-Euler_form(Q,[1,0],d))*x11+
+         (Euler_form(Q,d,[0,1])-Euler_form(Q,[0,1],d))*x21;
+
+julia> truncated_exp(x, n) = sum(x^i/factorial(i) for i in 0:n)
+
+julia> Hbundle = truncated_exp(-1//r * w, n)
+
+julia> Hbundle_dual = truncated_exp(1//r * w, n)
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{SOD in QuiverTools - Hirzebruch--Riemann--Roch}
+\scriptsize{
+\begin{lstlisting}
+julia> u1 = 2 + x21 + 1//2 *x11^2 - x12 + 1//6 *x11*x12 -
+            1//2 *x23 - 1//8 *x23*x11 + 1//12 *x12^2 -
+            1//80 * x23*x12 - 1//720 * x23^2;
+
+julia> u1star = 2 - x21 + 1//2*x11^2 - x12 - 1//6*x11*x12 +
+                1//2*x23 - 1//8*x23*x11 + 1//12*x12^2 +
+                1//80 * x23*x12 - 1//720 * x23^2;
+
+julia> u2 = 3 + x11 + 1//2*x11^2 - x22 - 1//2*x22*x11+
+            2//3*x11*x12 + 1//8*x23*x11 + 1//12*x22*x12-
+            1//4*x12^2 + 1//120*x23*x12;
+
+julia> u2star = 3 - x11 + 1//2*x11^2 - x22 + 1//2*x22*x11-
+                2//3*x11*x12 + 1//8*x23*x11 + 1//12*x22*x12-
+                1//4*x12^2 - 1//120*x23*x12;
+
+julia> bundles, dual_bundles = [u1, u2], [u1star, u2star];
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{SOD in QuiverTools - Hirzebruch--Riemann--Roch}
+\scriptsize{
+\begin{lstlisting}
+julia> m = 3;
+
+julia> for s in 1:m-1
+    println([integral(M, u*v*Hbundle_dual^s)
+            for u in dual_bundles for v in bundles])
+    println([integral(M, u*Hbundle_dual^s)
+            for u in dual_bundles])
+    println([integral(M, Hbundle_dual^s)])
+    end
+[0, 0, 0, 0]
+[0, 0]
+[0]
+[0, 0, 0, 0]
+[0, 0]
+[0]
+
+julia> println([integral(M, u) for u in bundles])
+       println([integral(M, u*Hbundle_dual) for u in bundles])
+[0, 0]
+[0, 0]       
+\end{lstlisting}
+}
+\end{frame}
 % \begin{frame}
 %     \frametitle{$D^b(Q)$ and $D^b(\modulispace)$.}
 % [cite pieter]
 % \end{frame}
+\begin{frame}
+    \frametitle{Decomposing quiver moduli - a QuiverTools showcase}
+\begin{center}
+    Thank you for your attention!
+\end{center}
+    
+
+\end{frame}
 
 \end{document}
