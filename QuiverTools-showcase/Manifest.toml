@@ -382,9 +382,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[deps.QuiverTools]]
 deps = ["AbstractAlgebra", "Combinatorics", "Documenter", "DocumenterTools", "IterTools", "LinearAlgebraX", "Memoization", "Nemo", "Singular", "StaticArrays", "Test"]
-git-tree-sha1 = "a9e62e17742f98fd26cc72746834aafc2739934c"
+git-tree-sha1 = "77ee0da80ac6bf3f742e37117d2e15d08bff463b"
 repo-rev = "main"
-repo-url = "https://github.com/QuiverTools/QuiverTools.jl"
+repo-url = "../../../projects/QuiverTools"
 uuid = "dc2e10be-62a3-4315-9c95-46bb97ac152d"
 version = "1.0.0"
 
